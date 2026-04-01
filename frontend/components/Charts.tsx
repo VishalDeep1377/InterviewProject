@@ -53,7 +53,7 @@ export function DistributionPieChart({ data, dataKey, nameKey }: { data: any[], 
                     verticalAlign="bottom" 
                     iconType="rect" 
                     iconSize={10}
-                    wrapperStyle={{fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', paddingTop: '20px'}} 
+                    wrapperStyle={{fontSize: '11px', fontWeight: 900, letterSpacing: '0.1em', paddingTop: '20px'}} 
                 />
             </PieChart>
         </ResponsiveContainer>
@@ -111,7 +111,7 @@ export function SupplierBarChart({ data, currency }: { data: any[], currency: st
         <ResponsiveContainer width="100%" height={300}>
             <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 10, fontWeight: 900, textTransform: 'uppercase'}} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 10, fontWeight: 900}} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94A3B8', fontSize: 10, fontWeight: 700}} />
                 <Tooltip 
                     cursor={{fill: '#F8FAFC', radius: 12}} 

@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Supplier {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  orders Order[]
+}
+
+model Brand {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  orders Order[]
+}
+
+model Category {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  orders Order[]
+}
+
+model Buyer {
+  id     Int     @id @default(autoincrement())
+  name   String
+  email  String?
+  orders Order[]
+}
+
+model Order {
+  id                    Int         @id @default(autoincrement())
+  purchase_order_number String      @unique
+  supplier_id           Int
+  brand_id              Int?
+  category_id           Int?
+  buyer_id              Int
+  style_number          String?
+  incoterms             String?
+  freight_method        String?
+  port_of_loading       String?
+  destination_country   String?
+  order_date            DateTime?
+  ex_factory_date       DateTime?
+  delivery_date         DateTime?
+  currency              String
+  total_units           Int?
+  total_net             Float?
+  total_gross           Float?
+  
+  supplier Supplier @relation(fields: [supplier_id], references: [id])
+  brand    Brand?   @relation(fields: [brand_id], references: [id])
+  category Category? @relation(fields: [category_id], references: [id])
+  buyer    Buyer    @relation(fields: [buyer_id], references: [id])
+  items    OrderItem[]
+}
+
+model OrderItem {
+  id           Int    @id @default(autoincrement())
+  order_id     Int
+  product_code String?
+  description  String?
+  size         String?
+  ean          String?
+  quantity     Int
+  unit_price   Float
+  total_price  Float
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}

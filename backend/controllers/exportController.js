@@ -29,23 +29,27 @@ exports.exportToCSV = async (req, res) => {
 
         // Add Data Rows (Flattened per Item)
         orders.forEach(o => {
+            const commonData = [
+                o.purchase_order_number,
+                o.supplier?.name || '',
+                o.brand?.name || '',
+                o.category?.name || '',
+                o.style_number || '',
+                o.buyer?.name || '',
+                o.incoterms || '',
+                o.freight_method || '',
+                o.port_of_loading || '',
+                o.destination_country || '',
+                o.order_date ? o.order_date.toISOString().split('T')[0] : '',
+                o.ex_factory_date ? o.ex_factory_date.toISOString().split('T')[0] : '',
+                o.delivery_date ? o.delivery_date.toISOString().split('T')[0] : '',
+                o.currency || '£'
+            ];
+
             if (o.items && o.items.length > 0) {
                 o.items.forEach(item => {
-                    const row = [
-                        o.purchase_order_number,
-                        o.supplier?.name || '',
-                        o.brand?.name || '',
-                        o.category?.name || '',
-                        o.style_number || '',
-                        o.buyer?.name || '',
-                        o.incoterms || '',
-                        o.freight_method || '',
-                        o.port_of_loading || '',
-                        o.destination_country || '',
-                        o.order_date ? o.order_date.toISOString().split('T')[0] : '',
-                        o.ex_factory_date ? o.ex_factory_date.toISOString().split('T')[0] : '',
-                        o.delivery_date ? o.delivery_date.toISOString().split('T')[0] : '',
-                        o.currency,
+                    const rowData = [
+                        ...commonData,
                         item.product_code || '',
                         item.description || '',
                         item.size || '',
@@ -53,35 +57,21 @@ exports.exportToCSV = async (req, res) => {
                         item.quantity,
                         item.unit_price,
                         item.total_price
-                    ].map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',');
+                    ];
+                    const row = rowData.map(v => `"${(v === undefined || v === null) ? '' : v.toString().replace(/"/g, '""')}"`).join(',');
                     csv += row + '\n';
                 });
             } else {
-                // If no items, at least export the order metadata
-                const row = [
-                    o.purchase_order_number,
-                    o.supplier?.name || '',
-                    o.brand?.name || '',
-                    o.category?.name || '',
-                    o.style_number || '',
-                    o.buyer?.name || '',
-                    o.incoterms || '',
-                    o.freight_method || '',
-                    o.port_of_loading || '',
-                    o.destination_country || '',
-                    o.order_date ? o.order_date.toISOString().split('T')[0] : '',
-                    o.ex_factory_date ? o.ex_factory_date.toISOString().split('T')[0] : '',
-                    o.delivery_date ? o.delivery_date.toISOString().split('T')[0] : '',
-                    o.currency,
-                    '', '', '', '', 0, 0, 0
-                ].map(v => `"${(v || '').toString().replace(/"/g, '""')}"`).join(',');
+                const rowData = [...commonData, '', '', '', '', 0, 0, 0];
+                const row = rowData.map(v => `"${(v === undefined || v === null) ? '' : v.toString().replace(/"/g, '""')}"`).join(',');
                 csv += row + '\n';
             }
         });
 
         res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', 'attachment; filename=po_detailed_export.csv');
-        res.status(200).send(csv);
+        res.setHeader('Content-Disposition', 'attachment; filename=purchase_orders.csv');
+        // Add UTF-8 BOM for Excel
+        res.status(200).send('\ufeff' + csv);
 
     } catch (error) {
         console.error("Export Error:", error);

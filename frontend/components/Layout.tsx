@@ -38,16 +38,18 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex h-screen w-full bg-[#fdfdfd] overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-900">
+      <div className="mesh-gradient pointer-events-none opacity-40"></div>
+          
       {/* Sidebar - Pro Glassmorphic */}
       <motion.aside 
         initial={false}
         animate={{ width: isCollapsed ? 80 : 280 }}
-        className="relative flex flex-col justify-between bg-white/70 backdrop-blur-2xl border-r border-slate-200/40 shadow-[4px_0_24px_-10px_rgba(0,0,0,0.05)] z-20"
+        className="relative flex flex-col justify-between bg-white/20 backdrop-blur-3xl border-r border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.02)] z-20"
       >
         <div>
-          <div className="h-20 flex items-center px-6 border-b border-slate-100/60">
+          <div className="h-20 flex items-center px-6 border-b border-white/10">
             <div className="flex items-center group cursor-pointer">
-              <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:rotate-12 transition-transform">
+              <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:rotate-12 transition-all">
                 <PackageSearch className="w-6 h-6 text-white" />
               </div>
               <AnimatePresence>
@@ -76,7 +78,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   className={`flex items-center px-4 py-3.5 rounded-2xl transition-all duration-300 group overflow-hidden relative ${
                     isActive
                       ? "bg-slate-900 text-white shadow-xl shadow-slate-200"
-                      : "text-slate-500 hover:bg-indigo-50 hover:text-indigo-600"
+                      : "text-slate-500 hover:bg-white/20 hover:text-indigo-600"
                   }`}
                 >
                   <Icon className={`w-5 h-5 min-w-[20px] ${isActive ? "text-white" : "text-slate-400 group-hover:text-indigo-600"}`} />
@@ -97,10 +99,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </nav>
         </div>
 
-        <div className="p-4 border-t border-slate-100/60">
+        <div className="p-4 border-t border-white/10">
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-4 py-3.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all font-bold text-sm"
+            className="flex items-center w-full px-4 py-3.5 text-slate-400 hover:text-red-500 hover:bg-red-50/50 rounded-2xl transition-all font-bold text-sm"
           >
             <LogOut className="w-5 h-5 min-w-[20px]" />
             {!isCollapsed && <span className="ml-4">Sign Out</span>}
@@ -119,29 +121,29 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       {/* Main Perspective */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Header - Advanced++ Header */}
-        <header className="h-20 bg-white/40 backdrop-blur-md border-b border-slate-100/60 px-8 flex items-center justify-between z-10">
+        <header className="h-20 bg-white/10 backdrop-blur-3xl border-b border-white/10 px-8 flex items-center justify-between z-10 shadow-sm shadow-black/5">
           <div className="flex-1 max-w-xl relative group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
             <input 
                 type="text" 
                 placeholder="Talk to AI Support... (try 'show my revenue trend')"
-                className="w-full bg-slate-100/50 border-none rounded-2xl pl-12 pr-4 py-2.5 text-sm font-medium focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                className="w-full bg-white/20 border border-white/40 rounded-2xl pl-12 pr-4 py-2.5 text-sm font-medium focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
             />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-white rounded-lg border border-slate-200 text-[10px] font-black text-slate-400">⌘K</div>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 bg-white/60 rounded-lg border border-white/40 text-[10px] font-black text-slate-400">⌘K</div>
           </div>
 
           <div className="flex items-center gap-6">
-            <button className="relative p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
+            <button className="relative p-2 text-slate-400 hover:text-indigo-600 hover:bg-white/40 rounded-xl transition-all">
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
             </button>
             
-            <div className="flex items-center gap-3 pl-6 border-l border-slate-100/60">
+            <div className="flex items-center gap-3 pl-6 border-l border-white/20">
                 <div className="text-right hidden md:block">
                     <p className="text-sm font-black text-slate-900">{userName}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Premium Account</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest tracking-tighter">Premium Account</p>
                 </div>
-                <div className="w-10 h-10 bg-gradient-to-tr from-slate-200 to-slate-100 rounded-xl flex items-center justify-center border border-slate-200 overflow-hidden shadow-sm">
+                <div className="w-10 h-10 bg-white/40 backdrop-blur rounded-xl flex items-center justify-center border border-white/40 overflow-hidden shadow-sm">
                     <User className="w-6 h-6 text-slate-400" />
                 </div>
             </div>
@@ -154,10 +156,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
         {/* Content Flow */}
         <main className="flex-1 overflow-y-auto p-8 relative">
-          {/* Ambient Background Elements */}
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-200/10 rounded-full blur-[120px] pointer-events-none"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-200/10 rounded-full blur-[120px] pointer-events-none"></div>
-          
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

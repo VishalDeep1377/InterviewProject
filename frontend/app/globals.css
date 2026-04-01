@@ -1,1 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+:root {
+  --font-outfit: 'Outfit', sans-serif;
+  
+  /* Primary Vibrant Palette */
+  --p-indigo: #6366f1;
+  --p-violet: #8b5cf6;
+  --p-rose: #f43f5e;
+  --p-amber: #f59e0b;
+  --p-emerald: #10b981;
+  
+  /* Glass Backgrounds */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+body {
+  font-family: var(--font-outfit);
+  background: #fdfdfd;
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+@layer utilities {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+  }
+
+  .mesh-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: 
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.08) 0, transparent 50%), 
+      radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.05) 0, transparent 50%), 
+      radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+    animation: mesh-move 20s ease infinite alternate;
+  }
+
+  @keyframes mesh-move {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1) translate(2%, 2%); }
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+  }
+
+  .gradient-border {
+    position: relative;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.2);
+}

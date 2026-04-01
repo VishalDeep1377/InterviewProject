@@ -167,29 +167,29 @@ export default function Dashboard() {
       {/* Advanced Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
         {[
-            { label: "Total Asset Value", val: `${currencySymbol}${totalRevenue.toLocaleString()}`, icon: CircleDollarSign, color: "indigo", trend: "+12.5%" },
-            { label: "Total PO Volume", val: totalOrders, icon: Target, color: "violet", trend: "Optimized" },
-            { label: "Unit Inventory", val: totalItems.toLocaleString(), icon: Zap, color: "amber", trend: "Live Sync" }
+            { label: "Total Asset Value", val: `${currencySymbol}${totalRevenue.toLocaleString()}`, icon: CircleDollarSign, color: "indigo", trend: "+12.5%", gradient: "from-indigo-600 to-violet-600" },
+            { label: "Total PO Volume", val: totalOrders, icon: Target, color: "rose", trend: "Optimized", gradient: "from-rose-500 to-orange-500" },
+            { label: "Unit Inventory", val: totalItems.toLocaleString(), icon: Zap, color: "emerald", trend: "Live Sync", gradient: "from-emerald-500 to-teal-500" }
         ].map((stat, i) => (
             <motion.div 
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-10 border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] group hover:shadow-indigo-600/5 transition-all overflow-hidden relative"
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 100 }}
+                className="glass-card rounded-[2.5rem] p-10 group hover:shadow-2xl hover:shadow-indigo-500/10 transition-all overflow-hidden relative border border-white/20"
             >
-                <div className={`absolute -right-4 -top-4 w-32 h-32 bg-${stat.color}-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700`}></div>
+                <div className={`absolute -right-4 -top-4 w-32 h-32 bg-gradient-to-br ${stat.gradient} opacity-5 rounded-full group-hover:scale-150 transition-transform duration-700`}></div>
                 <div className="relative z-10">
                     <motion.div 
-                        whileHover={{ rotate: 10 }}
-                        className={`w-14 h-14 bg-${stat.color}-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-${stat.color}-600/20`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-black/5`}
                     >
                         <stat.icon className="w-7 h-7 text-white" />
                     </motion.div>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-2">{stat.label}</p>
                     <div className="flex items-end justify-between">
-                        <p className="text-4xl font-black text-slate-900 tracking-tighter">{stat.val}</p>
-                        <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg">{stat.trend}</span>
+                        <p className="text-4xl font-black text-slate-900 tracking-tighter text-glow">{stat.val}</p>
+                        <span className={`text-[10px] font-black ${stat.color === 'indigo' ? 'text-indigo-600 bg-indigo-50/50' : stat.color === 'rose' ? 'text-rose-600 bg-rose-50/50' : 'text-emerald-600 bg-emerald-50/50'} px-2 py-1 rounded-lg border border-white/20`}>{stat.trend}</span>
                     </div>
                 </div>
             </motion.div>
@@ -199,17 +199,19 @@ export default function Dashboard() {
       {/* Filter Bar - Advance Mode */}
       <motion.div 
         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        className="bg-white/40 backdrop-blur-md p-6 rounded-[2rem] border border-white shadow-xl shadow-slate-100 flex flex-wrap items-center gap-6"
+        className="glass-card p-6 rounded-[2rem] flex flex-wrap items-center gap-6 border border-white/20"
       >
-        <div className="flex items-center gap-3 text-slate-400 border-r border-slate-200 pr-6">
-           <Filter className="w-5 h-5 text-indigo-600" />
+        <div className="flex items-center gap-3 text-slate-400 border-r border-white/10 pr-6">
+           <div className="p-2 bg-indigo-600/10 rounded-lg">
+              <Filter className="w-5 h-5 text-indigo-600" />
+           </div>
            <span className="text-xs font-black uppercase tracking-widest text-slate-900">Filters</span>
         </div>
         
         <select 
           value={filterSupplier} 
           onChange={(e) => setFilterSupplier(e.target.value)}
-          className="bg-white border border-slate-100 rounded-xl px-6 py-3 text-sm font-bold text-slate-600 focus:ring-4 focus:ring-indigo-500/10 outline-none min-w-[220px] shadow-sm appearance-none cursor-pointer"
+          className="bg-white/40 backdrop-blur border border-white/40 rounded-xl px-6 py-3 text-sm font-bold text-slate-600 focus:ring-4 focus:ring-indigo-500/10 outline-none min-w-[220px] shadow-sm appearance-none cursor-pointer hover:bg-white/60 transition-all"
         >
           <option value="">All Global Suppliers</option>
           {supplierData.map((s: any) => <option key={s.name} value={s.name}>{s.name}</option>)}
@@ -218,7 +220,7 @@ export default function Dashboard() {
         <select 
           value={filterCategory} 
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="bg-white border border-slate-100 rounded-xl px-6 py-3 text-sm font-bold text-slate-600 focus:ring-4 focus:ring-indigo-500/10 outline-none min-w-[220px] shadow-sm appearance-none cursor-pointer"
+          className="bg-white/40 backdrop-blur border border-white/40 rounded-xl px-6 py-3 text-sm font-bold text-slate-600 focus:ring-4 focus:ring-indigo-500/10 outline-none min-w-[220px] shadow-sm appearance-none cursor-pointer hover:bg-white/60 transition-all"
         >
           <option value="">All Categories</option>
           {categories.map((c: any) => <option key={c.id} value={c.name}>{c.name}</option>)}
@@ -227,7 +229,7 @@ export default function Dashboard() {
         {(filterSupplier || filterCategory) && (
             <button 
                 onClick={() => { setFilterSupplier(""); setFilterCategory(""); }}
-                className="text-xs font-black text-rose-500 hover:text-rose-600 uppercase tracking-widest hover:underline decoration-2"
+                className="text-xs font-black text-rose-500 hover:text-rose-600 uppercase tracking-widest hover:underline decoration-2 ml-auto"
             >
                 Reset Engine
             </button>
@@ -236,39 +238,51 @@ export default function Dashboard() {
 
       {/* Primary Analytics Array */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="bg-white/70 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl shadow-slate-100 border border-white">
-          <div className="flex items-center justify-between mb-10">
-            <h3 className="text-xl font-black text-slate-900">Partner Revenue</h3>
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="glass-card p-10 rounded-[3rem] border border-white/20 relative group overflow-hidden">
+          <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all"></div>
+          <div className="flex items-center justify-between mb-10 relative z-10">
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Partner Revenue</h3>
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">High Resolution Mode</span>
           </div>
-          <SupplierBarChart data={supplierData} currency={currencySymbol} />
+          <div className="relative z-10">
+            <SupplierBarChart data={supplierData} currency={currencySymbol} />
+          </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white/70 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl shadow-slate-100 border border-white">
-            <div className="flex items-center justify-between mb-10">
-                <h3 className="text-xl font-black text-slate-900">Brand Distribution</h3>
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="glass-card p-10 rounded-[3rem] border border-white/20 relative group overflow-hidden">
+            <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-violet-500/5 rounded-full blur-3xl group-hover:bg-violet-500/10 transition-all"></div>
+            <div className="flex items-center justify-between mb-10 relative z-10">
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">Brand Distribution</h3>
                 <Sparkles className="w-5 h-5 text-amber-500 animate-pulse" />
             </div>
-          <DistributionPieChart data={brandData} dataKey="total_revenue" />
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/70 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl shadow-slate-100 border border-white">
-            <div className="flex items-center justify-between mb-10">
-                <h3 className="text-xl font-black text-slate-900">Logistics Timeline</h3>
-                <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black rounded-lg uppercase tracking-widest">Efficiency Gap Analyser</span>
+            <div className="relative z-10">
+                <DistributionPieChart data={brandData} dataKey="total_revenue" />
             </div>
-          <DeliveryTimelineChart data={timelineData} />
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/70 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl shadow-slate-100 border border-white flex flex-col h-[400px]">
-          <div className="flex items-center justify-between mb-10">
-                <h3 className="text-xl font-black text-slate-900 flex items-center gap-3">
-                    <TrendingUp className="w-6 h-6 text-indigo-600" />
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-10 rounded-[3rem] border border-white/20 relative group overflow-hidden">
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-rose-500/5 rounded-full blur-3xl group-hover:bg-rose-500/10 transition-all"></div>
+            <div className="flex items-center justify-between mb-10 relative z-10">
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">Logistics Timeline</h3>
+                <span className="px-3 py-1 bg-white/40 text-indigo-600 text-[10px] font-black rounded-lg uppercase tracking-widest border border-white/20">Efficiency Gap Analyser</span>
+            </div>
+            <div className="relative z-10">
+                <DeliveryTimelineChart data={timelineData} />
+            </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-10 rounded-[3rem] border border-white/20 flex flex-col h-[400px] relative group overflow-hidden">
+          <div className="absolute -left-20 -top-20 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl group-hover:bg-emerald-500/10 transition-all"></div>
+          <div className="flex items-center justify-between mb-10 relative z-10">
+                <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 tracking-tight">
+                    <TrendingUp className="w-6 h-6 text-emerald-600" />
                     Growth Stream
                 </h3>
-                <Zap className="w-4 h-4 text-indigo-400 fill-current" />
+                <Zap className="w-4 h-4 text-emerald-400 fill-current" />
           </div>
-          <RevenueAreaChart data={revenueTrend} currency={currencySymbol} />
+          <div className="relative z-10 h-full">
+            <RevenueAreaChart data={revenueTrend} currency={currencySymbol} />
+          </div>
         </motion.div>
       </div>
 
@@ -276,24 +290,26 @@ export default function Dashboard() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="bg-white/90 backdrop-blur-2xl rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.06)] border border-white overflow-hidden"
+        className="glass-card rounded-[4rem] border border-white/20 overflow-hidden shadow-2xl"
       >
-        <div className="px-12 py-12 border-b border-slate-100 bg-slate-50/30 flex items-center justify-between">
+        <div className="px-12 py-12 border-b border-white/10 bg-white/10 flex items-center justify-between">
             <div>
                 <h3 className="text-3xl font-black text-slate-900 tracking-tighter">Quantum Ledger</h3>
-                <p className="text-xs font-bold text-slate-400 mt-2 uppercase tracking-[0.2em] italic font-medium">Full Transaction History & Live Audit Trail</p>
+                <p className="text-xs font-bold text-slate-400 mt-2 uppercase tracking-[0.2em] italic font-bold">Full Transaction History & Live Audit Trail</p>
             </div>
             <div className="flex items-center gap-6">
                 <div className="text-right">
                     <p className="text-2xl font-black text-indigo-600 tracking-tighter">{filteredOrders.length}</p>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Entries Active</p>
                 </div>
-                <div className="w-14 h-14 bg-indigo-600 rounded-[1.5rem] flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                <div className="w-14 h-14 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-[1.5rem] flex items-center justify-center shadow-lg shadow-indigo-600/20">
                     <Package className="w-8 h-8 text-white" />
                 </div>
             </div>
         </div>
-        <OrderTable orders={filteredOrders} currency={currencySymbol} onRefresh={loadData} />
+        <div className="bg-white/5">
+           <OrderTable orders={filteredOrders} currency={currencySymbol} onRefresh={loadData} />
+        </div>
       </motion.div>
     </div>
   );
